@@ -83,7 +83,7 @@ Everything from programming and level design to UI, puzzles, testing, and puttin
 
 Play the game on itch.io:
 
-**[TRUST UNCLE RED](YOUR_ITCH_IO_LINK_HERE)**
+**[TRUST UNCLE RED](https://raghuve3r.itch.io/trust-uncle-red)**
 
 ---
 
