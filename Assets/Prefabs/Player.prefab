@@ -469,6 +469,7 @@ GameObject:
   - component: {fileID: 3174274144703320495}
   - component: {fileID: 1204993918504844524}
   - component: {fileID: 7132435851502110599}
+  - component: {fileID: -4010804603688481308}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -562,6 +563,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   spriteRenderer: {fileID: 5143459544680962798}
+  leftPupil: {fileID: 0}
+  rightPupil: {fileID: 0}
+  leftPupilDefaultX: 0.3043505
+  rightPupilDefaultX: 0.3020331
 --- !u!50 &7132435851502110599
 Rigidbody2D:
   serializedVersion: 5
@@ -589,6 +594,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &-4010804603688481308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8292034412201035223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd89b9ac2da6a4b44a33a09b77b807dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerRespawn
+  spawnX: -6.02
+  spawnY: 7.18
 --- !u!1 &8456361995835216781
 GameObject:
   m_ObjectHideFlags: 0

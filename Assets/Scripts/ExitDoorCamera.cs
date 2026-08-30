@@ -20,6 +20,13 @@ public class ExitCameraDoor : MonoBehaviour
     public float spawnX;
     public float spawnY;
 
+    [Header("Ending Panel")]
+    public GameObject endingPanel;
+
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip levelClearedSound;
+
     private bool triggered = false;
     private bool moving = false;
 
@@ -33,6 +40,9 @@ public class ExitCameraDoor : MonoBehaviour
     {
         if (player != null)
             playerRb = player.GetComponent<Rigidbody2D>();
+
+        if (endingPanel != null)
+            endingPanel.SetActive(false);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -45,19 +55,23 @@ public class ExitCameraDoor : MonoBehaviour
 
         triggered = true;
 
-        StartCoroutine(TeleportPlayer());
+        if (audioSource != null && levelClearedSound != null)
+            audioSource.PlayOneShot(levelClearedSound);
+
+        MovePlayerToSpawn();
+
         StartCameraCinematic();
     }
 
-    private IEnumerator TeleportPlayer()
+    private void MovePlayerToSpawn()
     {
         if (player == null)
-            yield break;
+            return;
 
         if (playerRb == null)
             playerRb = player.GetComponent<Rigidbody2D>();
 
-        Vector3 exactSpawnPosition = new Vector3(
+        Vector3 spawnPosition = new Vector3(
             spawnX,
             spawnY,
             player.transform.position.z
@@ -67,26 +81,12 @@ public class ExitCameraDoor : MonoBehaviour
         {
             playerRb.linearVelocity = Vector2.zero;
             playerRb.angularVelocity = 0f;
-
-            playerRb.simulated = false;
-
-            player.transform.position = exactSpawnPosition;
-
-            yield return null;
-
-            player.transform.position = exactSpawnPosition;
-
             playerRb.position = new Vector2(spawnX, spawnY);
-
-            Physics2D.SyncTransforms();
-
-            playerRb.simulated = true;
-            playerRb.linearVelocity = Vector2.zero;
         }
-        else
-        {
-            player.transform.position = exactSpawnPosition;
-        }
+
+        player.transform.position = spawnPosition;
+
+        Physics2D.SyncTransforms();
     }
 
     private void StartCameraCinematic()
@@ -116,9 +116,15 @@ public class ExitCameraDoor : MonoBehaviour
 
         moveTimer += Time.deltaTime;
 
-        float progress = Mathf.Clamp01(moveTimer / moveDuration);
+        float progress = Mathf.Clamp01(
+            moveTimer / moveDuration
+        );
 
-        progress = Mathf.SmoothStep(0f, 1f, progress);
+        progress = Mathf.SmoothStep(
+            0f,
+            1f,
+            progress
+        );
 
         mainCamera.transform.position = Vector3.Lerp(
             startCameraPosition,
@@ -129,7 +135,11 @@ public class ExitCameraDoor : MonoBehaviour
         if (progress >= 1f)
         {
             mainCamera.transform.position = targetCameraPosition;
+
             moving = false;
+
+            if (endingPanel != null)
+                endingPanel.SetActive(true);
         }
     }
 }
